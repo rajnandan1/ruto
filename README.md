@@ -15,8 +15,8 @@ It uses client-server design pattern to communicate between parent and child win
 2. Parent window wants to send a message to child window and expects a reply within x seconds.
 
 ## Demo
-- [Parent to Iframe](https://ruto-demo.netlify.app/)
-- [Parent to Popup](https://ruto-demo.netlify.app/)
+- [Parent to Iframe](https://rajnandan1.github.io/ruto/index.html)
+- [Parent to Popup](https://rajnandan1.github.io/ruto/index2.html)
 
 ## Installation
 
