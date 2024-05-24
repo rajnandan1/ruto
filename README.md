@@ -16,6 +16,25 @@ It uses client-server design pattern to communicate between parent and child win
 - [Parent to Iframe](https://rajnandan1.github.io/ruto/index.html)
 - [Parent to Popup](https://rajnandan1.github.io/ruto/index2.html)
 
+## Table of Contents
+- [Installation](#installation)
+- [API](#api)
+	- [send](#send)
+	- [receive](#receive)
+- [Usage](#usage)
+	- [Parent to Iframe Example](#parent-to-iframe-example)
+		- [Parent Window](#parent-window)
+		- [Child Window](#child-window)
+	- [Parent to Popup Example](#parent-to-popup-example)
+		- [Parent Window](#parent-window-1)
+		- [Popup Window](#popup-window)
+	- [Iframe to Parent Example](#iframe-to-parent-example)
+		- [Iframe Window](#iframe-window)
+		- [Parent Window](#parent-window-2)
+	- [Popup to Parent Example](#popup-to-parent-example)
+		- [Popup Window](#popup-window-1)
+		- [Parent Window](#parent-window-3)
+
 ## Installation
 
 ### CDN
