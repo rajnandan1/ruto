@@ -33,6 +33,11 @@ export class SenderImpl implements Sender {
             if (this.client.node == null || this.client.node == undefined) {
                 return reject('Client Unhealthy');
             }
+			if (typeof window === 'undefined' || typeof document === 'undefined') {
+                // Resolve to null when imported server side. This makes the module
+                // safe to import in an isomorphic code base.
+                return resolve('');
+            }
             try {
                 const messageId = GetUUID();
                 const payload: Payload = {

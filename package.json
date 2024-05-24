@@ -3,7 +3,14 @@
     "version": "1.0.0",
     "description": "",
     "type": "module",
-    "main": "index.js",
+    "main": "dist/ruto.min.js",
+    "module": "dist/ruto.esm.js",
+    "exports": {
+        ".": {
+            "import": "./dist/ruto.esm.js",
+            "require": "./dist/ruto.min.js"
+        }
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "build": "rollup --bundleConfigAsCjs -c rollup.config.js",

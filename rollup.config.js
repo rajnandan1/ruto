@@ -16,6 +16,11 @@ export default {
             format: 'cjs',
             sourcemap: true,
         },
+        {
+            file: 'dist/ruto.esm.js',
+            format: 'es',
+            sourcemap: true,
+        },
     ],
     plugins: [
         typescript({

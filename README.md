@@ -152,7 +152,7 @@ ruto.send('http://localhost:3000/parent-to-iframe/sometopic', document.getElemen
 #### Child Window
 
 ```javascript
-ruto.receive('http://localhost:3000/parent-to-iframe/sometopic', window.parent, (response, message) => {
+ruto.receive('/parent-to-iframe/sometopic', window.parent, (response, message) => {
 	const newMessage = message + " edited by iframe";
 	return response.send(newMessage);
 });
@@ -178,7 +178,7 @@ ruto.send('http://localhost:3000/parent-to-window/sometopic', popup, "Your messa
 #### Popup Window
 
 ```javascript
-ruto.receive('http://localhost:3000/parent-to-window/sometopic', window.opener, (response, message) => {
+ruto.receive('/parent-to-window/sometopic', window.opener, (response, message) => {
 	const newMessage = message + " edited by popup";
 	return response.send(newMessage);
 });
@@ -202,7 +202,7 @@ ruto.send('http://localhost:3000/iframe-to-parent/sometopic', window.parent, "Yo
 #### Parent Window
 
 ```javascript
-ruto.receive('http://localhost:3000/iframe-to-parent/sometopic', window.parent, (response, message) => {
+ruto.receive('/iframe-to-parent/sometopic', window.parent, (response, message) => {
 	const newMessage = message + " edited by parent";
 	return response.send(newMessage);
 });
@@ -227,7 +227,7 @@ ruto.send('http://localhost:3000/window-to-parent/sometopic', window.opener, "Yo
 #### Parent Window
 
 ```javascript
-ruto.receive('http://localhost:3000/window-to-parent/sometopic', window.opener, (response, message) => {
+ruto.receive('/window-to-parent/sometopic', window.opener, (response, message) => {
 	const newMessage = message + " edited by parent";
 	return response.send(newMessage);
 });
