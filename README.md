@@ -109,7 +109,7 @@ ruto.receive('http://localhost:3000/parent-to-iframe/sometopic', window.parent, 
 
 ## Usage
 
-### Parent to Iframe Example
+### ⭐ Parent to Iframe Example
 
 
 
@@ -124,7 +124,7 @@ const options = {
 	timeout: 5000
 };
 ruto.send('http://localhost:3000/parent-to-iframe/sometopic', document.getElementById('iframe'), "Your message", options).then((response) => {
-	console.log(response);
+	console.log(response); //Your message edited by iframe
 }).catch((error) => {
 	console.log(error);
 });
@@ -139,7 +139,7 @@ ruto.receive('http://localhost:3000/parent-to-iframe/sometopic', window.parent, 
 });
 ```
 
-### Parent to Popup Example
+### ⭐ Parent to Popup Example
 
 #### Parent Window
 
@@ -150,7 +150,7 @@ const options = {
 	timeout: 5000
 };
 ruto.send('http://localhost:3000/parent-to-window/sometopic', popup, "Your message", options).then((response) => {
-	console.log(response);
+	console.log(response); //Your message edited by popup
 }).catch((error) => {
 	console.log(error);
 });
@@ -161,6 +161,55 @@ ruto.send('http://localhost:3000/parent-to-window/sometopic', popup, "Your messa
 ```javascript
 ruto.receive('http://localhost:3000/parent-to-window/sometopic', window.opener, (response, message) => {
 	const newMessage = message + " edited by popup";
+	return response.send(newMessage);
+});
+```
+
+### ⭐ Iframe to Parent Example
+
+#### Iframe Window
+
+```javascript
+const options = {
+	timeout: 5000
+};
+ruto.send('http://localhost:3000/iframe-to-parent/sometopic', window.parent, "Your message", options).then((response) => {
+	console.log(response); //Your message edited by parent
+}).catch((error) => {
+	console.log(error);
+});
+```
+
+#### Parent Window
+
+```javascript
+ruto.receive('http://localhost:3000/iframe-to-parent/sometopic', window.parent, (response, message) => {
+	const newMessage = message + " edited by parent";
+	return response.send(newMessage);
+});
+```
+
+
+### ⭐ Popup to Parent Example
+
+#### Popup Window
+
+```javascript
+const options = {
+	timeout: 5000
+};
+ruto.send('http://localhost:3000/window-to-parent/sometopic', window.opener, "Your message", options).then((response) => {
+	console.log(response); //Your message edited by parent
+}).catch((error) => {
+	console.log(error);
+});
+```
+
+#### Parent Window
+
+```javascript
+ruto.receive('http://localhost:3000/window-to-parent/sometopic', window.opener, (response, message) => {
+	const newMessage = message + " edited by parent";
 	return response.send(newMessage);
 });
 ```
