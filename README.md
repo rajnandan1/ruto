@@ -42,6 +42,12 @@ It uses client-server design pattern to communicate between parent and child win
 ```html
 <script src="https://cdn.jsdelivr.net/gh/rajnandan1/ruto/dist/ruto.min.js"></script>
 ```
+### ES6
+
+```bash
+npm i @rajnandan1/ruto
+```
+
 
 ## API
 
