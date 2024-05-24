@@ -1,3 +1,7 @@
+<div style="text-align:center">
+	<img src="ruto.png" height="149">
+</div>
+
 # Ruto
 
 Ruto is a lightweight(4KB), fast and easy-to-use JS library that streamlines the communication between parent and child window(iframe/popup).
