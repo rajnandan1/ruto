@@ -1,10 +1,5 @@
 //create a function that takes any url and returns the origin
-
 function GetOrigin(url) {
-	
-	if(!url){
-		return '';
-	}
     if (url.startsWith('*')) {
         return '*';
     }
@@ -16,7 +11,6 @@ function GetOrigin(url) {
     return a.origin;
 }
 function GetFromType(url) {
-	
     const origin = GetOrigin(url);
     const cleanedUrl = url.replace(origin, '');
     const splittedUrl = cleanedUrl.split('/');
@@ -33,7 +27,6 @@ function GetFromType(url) {
     return 'parent';
 }
 function GetToType(url) {
-	
     const origin = GetOrigin(url);
     const cleanedUrl = url.replace(origin, '');
     const splittedUrl = cleanedUrl.split('/');
@@ -56,7 +49,6 @@ function GetUUID() {
     });
 }
 function ValidatePath(url) {
-	
     const origin = GetOrigin(url);
     const cleanedUrl = url.replace(origin, '');
     if (!cleanedUrl.startsWith('/')) {
@@ -153,7 +145,7 @@ class SenderImpl {
             nodeTypeTo: GetToType(route),
             nodeTypeFrom: GetFromType(route),
             toOrigin: toOrigin,
-            fromOrigin: GetOrigin("f"),
+            fromOrigin: GetOrigin(window.location.href),
             subpath: route.replace(toOrigin, ''),
         };
         this.timeout = (options === null || options === void 0 ? void 0 : options.timeout) || 3000;
@@ -202,7 +194,6 @@ class ResponseImpl {
 class ReceiverImpl {
     constructor() {
         this.receive = (subpath, node, callback) => {
-			console.log('>>>>>>----  ruto.esm:197 ', "I am esm here");
             if (typeof window !== 'undefined' && typeof document !== 'undefined') {
                 window.addEventListener('message', (event) => {
                     var _a;

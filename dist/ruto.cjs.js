@@ -1,6 +1,5 @@
 'use strict';
 
-console.log('>>>>>>----  ruto.esm:197 ', 'I am here cjs');
 //create a function that takes any url and returns the origin
 function GetOrigin(url) {
     if (url.startsWith('*')) {
@@ -194,11 +193,9 @@ class ResponseImpl {
         this.client = client;
     }
 }
-console.log('>>>>>>----  ruto.esm:197 ', "I am here cjs");
 class ReceiverImpl {
     constructor() {
         this.receive = (subpath, node, callback) => {
-			
             if (typeof window !== 'undefined' && typeof document !== 'undefined') {
                 window.addEventListener('message', (event) => {
                     var _a;

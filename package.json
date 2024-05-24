@@ -1,7 +1,7 @@
 {
     "name": "ruto",
     "version": "1.0.0",
-    "description": "",
+    "description": "Ruto is a lightweight(4KB), fast and easy-to-use JS library that streamlines the communication between parent and child window(iframe/popup).",
     "type": "module",
     "main": "dist/ruto.min.js",
     "module": "dist/ruto.esm.js",
@@ -16,9 +16,9 @@
         "build": "rollup --bundleConfigAsCjs -c rollup.config.js",
         "prettify": "prettier --write ."
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "keywords": ["ruto", "postMessage", "iframe", "popup", "promise", "rajnandan", "library"],
+    "author": "Raj Nandan Sharma <rajnandan1@gmail.com> (https://www.rajnandan.com)",
+    "license": "MIT",
     "devDependencies": {
         "@rollup/plugin-terser": "^0.4.4",
         "prettier": "^3.2.5",
@@ -26,8 +26,5 @@
         "rollup-plugin-typescript2": "^0.36.0",
         "tslib": "^2.6.2",
         "typescript": "^5.4.5"
-    },
-    "dependencies": {
-        "axios": "^1.6.8"
     }
 }
