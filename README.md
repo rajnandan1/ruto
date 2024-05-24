@@ -1,6 +1,4 @@
-<div style="text-align:center">
-	<img src="ruto.png" height="149">
-</div>
+<img src="ruto.png" height="149" style="display:block;margin:0 auto">
 
 # Ruto
 
