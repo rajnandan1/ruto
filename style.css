@@ -1,0 +1,51 @@
+.chat {
+    height: 400px;
+    overflow-y: auto;
+}
+.chat-content {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding-top: 10px;
+}
+.chat-root {
+    padding: 20px;
+}
+.bubble {
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 8px;
+    display: inline-block;
+    font-size: 12px;
+}
+.mine {
+    text-align: right;
+}
+.mine.sent .bubble {
+    background-color: #c3ed7d;
+}
+.mine.received .bubble {
+    background-color: #73a233;
+}
+.his.sent .bubble {
+    background-color: #87e1f6;
+}
+.his.received .bubble {
+    background-color: #418faf;
+}
+.message {
+    padding: 5px;
+    background-color: #faf8f3;
+    border-top: 1px solid #ccc;
+}
+.chat .message:last-child {
+    border-bottom: 1px solid #ccc;
+}
+.nav-link {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #111;
+    font-weight: 600;
+}
+.nav-link.active {
+    color: #63b485 !important;
+}
