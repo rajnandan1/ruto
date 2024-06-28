@@ -1,5 +1,3 @@
-
-
 export interface WindowMQOptions {
     timeout: number;
 }
@@ -10,6 +8,7 @@ export interface WindowClient {
     toOrigin: string;
     fromOrigin: string;
     subpath: string;
+    nodeReady: boolean;
 }
 
 export interface Payload {

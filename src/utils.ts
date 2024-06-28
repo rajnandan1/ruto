@@ -80,3 +80,20 @@ export function ValidatePath(url: string): boolean {
 
     return true;
 }
+
+export function WaitForIframeLoad(iframe: HTMLIFrameElement, timeout: number): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+        const timeoutId = setTimeout(() => {
+            clearInterval(interval);
+            reject(new Error('Timeout exceeded'));
+        }, timeout);
+
+        const interval = setInterval(() => {
+            if (iframe.contentWindow) {
+                clearInterval(interval);
+                clearTimeout(timeoutId);
+                resolve();
+            }
+        }, 100);
+    });
+}

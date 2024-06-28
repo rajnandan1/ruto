@@ -50,7 +50,7 @@ export interface Receiver {
 export class ReceiverImpl implements Receiver {
     receive: (subpath: string, node: Window | HTMLIFrameElement, callback: (res: Response, message: string) => void) => void = (subpath: string, node: Window | HTMLIFrameElement, callback: (res: Response, message: string) => void) => {
         if (typeof window !== 'undefined' && typeof document !== 'undefined') {
-			window.addEventListener('message', (event) => {
+            window.addEventListener('message', (event) => {
                 if (event.origin !== event.data.fromOrigin) {
                     return;
                 }
@@ -72,11 +72,12 @@ export class ReceiverImpl implements Receiver {
                     toOrigin: event.data.fromOrigin,
                     fromOrigin: event.data.toOrigin,
                     subpath: subpath,
+                    nodeReady: false,
                 };
 
                 const resp = new ResponseImpl(event.data.id, client);
                 callback(resp, event.data.message);
             });
-		}
+        }
     };
 }

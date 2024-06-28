@@ -17,11 +17,9 @@ function GetFromType(url) {
     const toDestination = splittedUrl[1];
     if (toDestination.startsWith('parent')) {
         return 'parent';
-    }
-    else if (toDestination.startsWith('iframe')) {
+    } else if (toDestination.startsWith('iframe')) {
         return 'iframe';
-    }
-    else if (toDestination.startsWith('window')) {
+    } else if (toDestination.startsWith('window')) {
         return 'window';
     }
     return 'parent';
@@ -33,18 +31,17 @@ function GetToType(url) {
     const toDestination = splittedUrl[1];
     if (toDestination.endsWith('parent')) {
         return 'parent';
-    }
-    else if (toDestination.endsWith('iframe')) {
+    } else if (toDestination.endsWith('iframe')) {
         return 'iframe';
-    }
-    else if (toDestination.endsWith('window')) {
+    } else if (toDestination.endsWith('window')) {
         return 'window';
     }
     return 'iframe';
 }
 function GetUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        const r = (Math.random() * 16) | 0, v = c == 'x' ? r : (r & 0x3) | 0x8;
+        const r = (Math.random() * 16) | 0,
+            v = c == 'x' ? r : (r & 0x3) | 0x8;
         return v.toString(16);
     });
 }
@@ -73,6 +70,21 @@ function ValidatePath(url) {
         }
     }
     return true;
+}
+function WaitForIframeLoad(iframe, timeout) {
+    return new Promise((resolve, reject) => {
+        const timeoutId = setTimeout(() => {
+            clearInterval(interval);
+            reject(new Error('Timeout exceeded'));
+        }, timeout);
+        const interval = setInterval(() => {
+            if (iframe.contentWindow) {
+                clearInterval(interval);
+                clearTimeout(timeoutId);
+                resolve();
+            }
+        }, 100);
+    });
 }
 
 class SenderImpl {
@@ -103,13 +115,20 @@ class SenderImpl {
                     };
                     if (this.client.nodeTypeTo == 'iframe') {
                         const iframe = this.client.node;
-                        (_a = iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(payload, this.client.toOrigin);
-                    }
-                    else if (this.client.nodeTypeTo == 'parent') {
+                        //wait for iframe to load
+                        if (this.client.nodeReady) {
+                            (_a = iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(payload, this.client.toOrigin);
+                        } else {
+                            WaitForIframeLoad(iframe, this.timeout).then(() => {
+                                var _a;
+                                this.client.nodeReady = true;
+                                (_a = iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(payload, this.client.toOrigin);
+                            });
+                        }
+                    } else if (this.client.nodeTypeTo == 'parent') {
                         const win = this.client.node;
                         win.postMessage(payload, this.client.toOrigin);
-                    }
-                    else if (this.client.nodeTypeTo == 'window') {
+                    } else if (this.client.nodeTypeTo == 'window') {
                         const win = this.client.node;
                         win.postMessage(payload, this.client.toOrigin);
                     }
@@ -133,8 +152,7 @@ class SenderImpl {
                         clearTimeout(timer);
                     };
                     window.addEventListener('message', messageListener);
-                }
-                catch (error) {
+                } catch (error) {
                     this.rejecter(error);
                 }
             });
@@ -147,10 +165,11 @@ class SenderImpl {
             toOrigin: toOrigin,
             fromOrigin: GetOrigin(window.location.href),
             subpath: route.replace(toOrigin, ''),
+            nodeReady: false,
         };
         this.timeout = (options === null || options === void 0 ? void 0 : options.timeout) || 3000;
-        this.resolver = (value) => { };
-        this.rejecter = (reason) => { };
+        this.resolver = (value) => {};
+        this.rejecter = (reason) => {};
     }
 }
 
@@ -173,16 +192,13 @@ class ResponseImpl {
             if (fromType == 'iframe' && toType == 'parent') {
                 let win = this.client.node;
                 win.postMessage(payload, this.client.toOrigin);
-            }
-            else if (fromType == 'parent' && toType == 'iframe') {
+            } else if (fromType == 'parent' && toType == 'iframe') {
                 let iframe = this.client.node;
                 (_a = iframe.contentWindow) === null || _a === void 0 ? void 0 : _a.postMessage(payload, this.client.toOrigin);
-            }
-            else if (fromType == 'window' && toType == 'parent') {
+            } else if (fromType == 'window' && toType == 'parent') {
                 let win = this.client.node;
                 win.postMessage(payload, this.client.toOrigin);
-            }
-            else if (fromType == 'parent' && toType == 'window') {
+            } else if (fromType == 'parent' && toType == 'window') {
                 let win = this.client.node;
                 win.postMessage(payload, this.client.toOrigin);
             }
@@ -216,6 +232,7 @@ class ReceiverImpl {
                         toOrigin: event.data.fromOrigin,
                         fromOrigin: event.data.toOrigin,
                         subpath: subpath,
+                        nodeReady: false,
                     };
                     const resp = new ResponseImpl(event.data.id, client);
                     callback(resp, event.data.message);

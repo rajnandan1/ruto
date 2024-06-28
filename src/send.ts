@@ -1,5 +1,5 @@
 import { WindowMQOptions, WindowClient, Payload } from './common';
-import { GetOrigin, GetFromType, GetToType, GetUUID } from './utils';
+import { GetOrigin, GetFromType, GetToType, GetUUID, WaitForIframeLoad } from './utils';
 export interface Sender {
     send: (message: string) => Promise<string>;
 }
@@ -7,12 +7,12 @@ export interface Sender {
 export class SenderImpl implements Sender {
     client: WindowClient;
     timeout: number;
-
     resolver: (value: string | PromiseLike<string>) => void;
     rejecter: (reason?: any) => void;
 
     constructor(route: string, node: Window | HTMLIFrameElement, options: WindowMQOptions) {
         const toOrigin = GetOrigin(route);
+
         this.client = {
             node: node,
             nodeTypeTo: GetToType(route),
@@ -20,6 +20,7 @@ export class SenderImpl implements Sender {
             toOrigin: toOrigin,
             fromOrigin: GetOrigin(window.location.href),
             subpath: route.replace(toOrigin, ''),
+            nodeReady: false,
         };
         this.timeout = options?.timeout || 3000;
         this.resolver = (value: string | PromiseLike<string>) => {};
@@ -33,7 +34,7 @@ export class SenderImpl implements Sender {
             if (this.client.node == null || this.client.node == undefined) {
                 return reject('Client Unhealthy');
             }
-			if (typeof window === 'undefined' || typeof document === 'undefined') {
+            if (typeof window === 'undefined' || typeof document === 'undefined') {
                 // Resolve to null when imported server side. This makes the module
                 // safe to import in an isomorphic code base.
                 return resolve('');
@@ -51,7 +52,20 @@ export class SenderImpl implements Sender {
                 };
                 if (this.client.nodeTypeTo == 'iframe') {
                     const iframe = this.client.node as HTMLIFrameElement;
-                    iframe.contentWindow?.postMessage(payload, this.client.toOrigin);
+                    //wait for iframe to load
+                    if (this.client.nodeReady) {
+                        iframe.contentWindow?.postMessage(payload, this.client.toOrigin);
+                    } else {
+                        WaitForIframeLoad(iframe, this.timeout).then(
+                            () => {
+                                this.client.nodeReady = true;
+                                iframe.contentWindow?.postMessage(payload, this.client.toOrigin);
+                            },
+                            function (err) {
+                                return reject('Client Timeout');
+                            },
+                        );
+                    }
                 } else if (this.client.nodeTypeTo == 'parent') {
                     const win = this.client.node as Window;
                     win.postMessage(payload, this.client.toOrigin);

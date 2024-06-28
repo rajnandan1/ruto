@@ -1,6 +1,6 @@
 {
     "name": "@rajnandan1/ruto",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Ruto is a lightweight(4KB), fast and easy-to-use JS library that streamlines the communication between parent and child window(iframe/popup).",
     "type": "module",
     "main": "dist/ruto.min.js",
