@@ -2,7 +2,7 @@
 
 # Ruto
 
-Ruto is a lightweight(4KB), fast and easy-to-use JS library that streamlines the communication between parent and child window(iframe/popup).
+Ruto is a lightweight(4KB), fast and easy-to-use JS library that streamlines the communication between parent and child window(iframe/popup). Under the hood it is `postMessage` on steroids.
 
 It uses client-server design pattern to communicate between parent and child window. Any window can become the client or the server depending on who wants to send. It abstracts out the complications of postMessage API and provides a simple API to send and receive messages.
 
